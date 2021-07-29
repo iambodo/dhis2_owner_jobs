@@ -36,7 +36,7 @@ loginDHIS2<-function(baseurl,username,password){
   assert_that(r$status_code == 200L)}
 
 if(loginDHIS2(baseurl,username,
-              chuck(auth, "dhis","password"))){
+              chuck(fromJSON("auth.json"), "dhis","password"))){
   print("successfully logged in")
 }else{
   stop("could not log in! Please check url, username and password in auth.json")
@@ -57,7 +57,7 @@ if (length(args > 1) & is_date(args[1]==TRUE) & is_date(args[2]==TRUE)){
 } else {
   warning("Start/end dates missing of invalid (yyyy-mm-dd)...\nReturning last two days by default")
   start_date<-Sys.Date()-2
-  end_date<-Sys.Date()-1
+  end_date<-Sys.Date()
 }
 
 
@@ -103,6 +103,7 @@ sView<-paste0(baseurl,"api/sqlViews/rToBDbONXkA/data.csv",
 r<-GET(sView)
 stop_for_status(r)
 
+
 movers<-suppressMessages(read_csv(content(r)))
 
 # add columns
@@ -128,6 +129,7 @@ updateEnrOU<-function(baseurl, enr_id, new_ou){
   
 }
 
+if nrow(movers)>0{
 
 
 # Start loop for updating enrollment OU
@@ -152,6 +154,11 @@ if(file.exists("updated_enrollments.csv")){
 }
 
 print("Details at updated_enrollments.csv")
+
+
+} else {
+  print("No enrollments found to update")
+}
 
 #### NEW TRACKER TEST ####
 # this test with new tracker API created a tracker import job
