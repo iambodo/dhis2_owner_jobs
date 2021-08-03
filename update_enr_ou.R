@@ -129,8 +129,8 @@ updateEnrOU<-function(baseurl, enr_id, new_ou){
   
 }
 
-if nrow(movers)>0{
-
+# If notthing to update skip to end
+if (nrow(movers)>0){
 
 # Start loop for updating enrollment OU
 # Add status of operation to outcome column
