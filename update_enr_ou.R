@@ -72,7 +72,7 @@ url<-paste0(baseurl,"api/sqlViews.json?filter=id:eq:",view_uid)
 r<-httr::GET(url)
 httr::stop_for_status(r, "Could not access SQL view. Check user permissions")
 
-sql <- fromJSON(content(r))
+sql <- fromJSON(content(r, type="text", encoding = "UTF-8"))
 
 if(is.null(pluck(sql, "sqlViews","id"))){
   
